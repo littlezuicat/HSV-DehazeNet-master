@@ -22,7 +22,7 @@ parser.add_argument('--bs',type=int,default=2,help='batch size')
 parser.add_argument('--workers',type=int,default=0,help='num of workers')
 parser.add_argument('--crop',action='store_true')
 parser.add_argument('--crop_size',type=int,default=256,help='Takes effect when using --crop ')
-parser.add_argument('--path',type=str,default=r'D:\Desktop\renyi\Dataset',help='Dataset location')
+parser.add_argument('--path',type=str,default=r'C:\Users\33913\Desktop\dataset',help='Dataset location')
 
 
 opt=parser.parse_args()
@@ -39,6 +39,10 @@ def get_dataset_name():
 
 opt.dataset_name = get_dataset_name()
 opt.device='cuda' if torch.cuda.is_available() else 'cpu'
+if opt.device=='cpu':
+	for i in range(5):
+		print("You are using CPU to train!!!!!!")
+		time.sleep(0.5)
 opt.model_name=opt.dataset_name+'_'+opt.net
 opt.model_dir=opt.model_dir+opt.model_name+'.pk'
 log_dir='logs/'+opt.model_name
