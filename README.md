@@ -59,7 +59,7 @@ datasets_root/
 2. Run training from the repository root. Example (PowerShell):
 
 ```powershell
-python main.py --path "C:/path/to/datasets" --net HSVDehazeNet --bs 2 --steps 30000
+python main.py --path "C:/path/to/datasets" --bs 2 --steps 30000 --crop
 ```
 
 Important flags (from `option.py`):
@@ -75,16 +75,6 @@ Important flags (from `option.py`):
 
 During training the code will create `trained_models/`, `logs/` and `result/` directories as needed.
 
-## Inference / Testing
-
-`test.py` demonstrates loading a saved `HSVNet` model and running predictions. Edit `img_dir` and `model_dir` at the top of `test.py`, then run:
-
-```powershell
-python test.py
-```
-
-Predicted images are written to a folder named like `pred_HSVNet_<dataset>/` (see `test.py`).
-
 ## Implementation notes
 
 - Models:
@@ -93,28 +83,3 @@ Predicted images are written to a folder named like `pred_HSVNet_<dataset>/` (se
   - `HSVDehazeNet` fuses RGB and HSV branch outputs using an adaptive feature fusion (AFF) module.
 - Loss: `loss.py` combines multi-scale L1 reconstruction losses, FFT-based frequency losses, and HSV-related losses.
 - Metrics: `metrics.py` provides PSNR and SSIM metrics, and includes helper routines for color conversions.
-
-## Known caveats & recommendations
-
-- Some dataset-dependent mean/std values are used in `metrics.py` and `test.py` to denormalize/normalize images. Ensure `opt.trainset` is set consistently (or add your dataset's mean/std where needed).
-- `option.py` prompts interactively for dataset selection; for scripted runs you can set `opt.dataset_name` programmatically before use.
-- A few comments or strings in code may still be in Chinese. If you want a full sweep to translate all text to English, I can perform that.
-
-## Suggested next improvements
-
-1. Add a non-interactive CLI argument to choose dataset name to support headless execution.
-2. Centralize dataset mean/std configuration (e.g., in `option.py`) to avoid duplication.
-3. Provide a small example dataset and a reproducible training example to verify the pipeline.
-
-## License
-
-No license file is included. Add a `LICENSE` if you plan to publish or share the code publicly.
-
----
-
-If you want, I can now:
-
-- translate any remaining Chinese comments and strings across the repo, or
-- add a non-interactive dataset selection flag, or
-- create a small script that runs a quick smoke test (if you install PyTorch locally).
-

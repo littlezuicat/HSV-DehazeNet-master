@@ -32,7 +32,7 @@ class HSVDataset(data.Dataset):
         # Preload dataset into memory
         haze_imgs_dir = sorted(os.listdir(os.path.join(path, 'hazy')))
         name = opt.dataset_name.lower().replace('-', '').replace('_', '')
-        if any(haze in name for haze in ['ohaze', 'nhhaze', 'ihaze', 'densehaze']):
+        if any(haze in name for haze in ['ohaz', 'nhhaz', 'ihaz', 'densehaz']):
             
             clear_imgs_dir = sorted(os.listdir(os.path.join(path, 'GT')))
             self.haze_imgs = [
