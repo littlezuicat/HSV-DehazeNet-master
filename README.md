@@ -75,6 +75,8 @@ Important flags (from `option.py`):
 
 During training the code will create `trained_models/`, `logs/` and `result/` directories as needed.
 
+## Dataset
+O-Haze：http://www.vision.ee.ethz.ch/ntire18/o-haze/ (Official from NTIRE18)
 ## Implementation notes
 
 - Models:
