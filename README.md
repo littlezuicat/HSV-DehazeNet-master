@@ -1,4 +1,4 @@
-# Dual-Color Space Dehazing: HSV-Guided Residual Removal and Color Fidelity Restoration(HSV-DehazeNet)
+# Dual-Color Space Dehazing: HSV-Guided Residual Removal and Color Fidelity Restoration
 
 HSV-DehazeNet is a PyTorch-based image dehazing project that fuses RGB and HSV processing paths. The codebase includes model definitions, training and testing scripts, dataset utilities, loss functions, and evaluation metrics (PSNR / SSIM).
 
