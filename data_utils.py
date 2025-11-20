@@ -58,12 +58,18 @@ class HSVDataset(data.Dataset):
     def __getitem__(self, index):
         haze = self.haze_imgs[index]  # Directly retrieved from memory
         clear = self.clear_imgs[index]  # Directly retrieved from memory
+        w, h = haze.size
+        short = min(w, h)
+        crop_side = random.randint(256, short)
         # print(haze)
         if not isinstance(self.size, str):
-            i, j, h, w = tfs.RandomCrop.get_params(haze, output_size=(self.size, self.size))
+            
+            i, j, h, w = tfs.RandomCrop.get_params(haze, output_size=(crop_side, crop_side))
             haze = FF.crop(haze, i, j, h, w)
             clear = FF.crop(clear, i, j, h, w)
-        
+            resize_256 = tfs.Resize((self.size, self.size))
+            haze = resize_256(haze)
+            clear = resize_256(clear)
         haze, clear= self.augData(haze, clear)
         return haze, clear
     
@@ -82,7 +88,7 @@ class HSVDataset(data.Dataset):
         
             
         if not self.train:
-            shaper = tfs.Resize((256, 256))
+            shaper = tfs.Resize((512, 512))
             data = shaper(data)
             target = shaper(target)
         data = tfs.ToTensor()(data)
