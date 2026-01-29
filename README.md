@@ -1,6 +1,6 @@
 # HSV-DehazeNet: Hue Consistency Calibration and Haze Density Supervision for Image Dehazing
 
-[![LICENSE](https://img.shields.io/badge/license-MIT-green)](https://github.com/littlezuicat/HSV-DehazeNet-master/blob/master/LICENSE)
+[![LICENSE](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Framework](https://img.shields.io/badge/framework-PyTorch-red)](https://pytorch.org/)
 
 > **Authors:** Yi Ren, Hongyuan Jing, Songhao Wu, Wenlu Yang, Mengfei Han, Jinjin Hu, Kehong Li*, Mengmeng Zhang  
@@ -14,9 +14,10 @@
 This repository contains the official implementation of the paper **"HSV-DehazeNet: Hue Consistency Calibration and Haze Density Supervision for Image Dehazing"**.
 
 **Abstract:**
-Single image dehazing is a key low-level vision task for enhancing visibility. However, RGB-based methods often suffer from color distortion and residual haze due to strong inter-channel coupling. From the HSV perspective, we observe that the hue-channel distribution changes only slightly before and after dehazing. Accordingly, we propose **HSV-DehazeNet**, a dual-branch network that:
-1.  Incorporates a **Hue Consistency Calibration Module (HCCM)** to correct subtle hue shifts and preserve color fidelity.
-2.  Imposes **Haze Density Supervision (HDS)** based on the saturation-value discrepancy ($S-V \propto \text{density}$) to explicitly guide the network in learning haze distribution.
+Single image dehazing is a key low-level vision task for enhancing visibility. However, RGB-based methods often suffer from color distortion and residual haze due to strong inter-channel coupling. From the HSV perspective, we observe that the hue-channel distribution remains relatively stable before and after dehazing. Based on this insight, we propose **HSV-DehazeNet**, a novel dehazing framework that effectively integrates HSV color space priors into a deep learning architecture. Our approach features:
+
+1.  **Hue Consistency Calibration Module (HCCM):** A module designed to correct subtle hue shifts and preserve color fidelity by leveraging pixel-wise attention.
+2.  **Haze Density Supervision (HDS):** A mechanism that imposes explicit supervision on the haze distribution. It is grounded in the physical prior that haze density is proportional to the absolute difference between saturation and value ($D \propto |S - V|$).
 
 Experiments demonstrate that our method achieves state-of-the-art performance on real-world datasets (O-HAZE, I-HAZE) and exhibits superior generalization on unpaired benchmarks.
 
@@ -24,16 +25,17 @@ Experiments demonstrate that our method achieves state-of-the-art performance on
 
 ## 🖼️ Network Architecture
 
-Our framework is built upon a standard RGB encoder-decoder backbone and incorporates an HSV-guided branch for refinement.
+Our framework is built upon a standard encoder-decoder backbone, enhanced by HSV-domain guidance to ensure both structural restoration and color accuracy.
 
 <p align="center">
-  <img src="framework.png" width="95%" alt="Network Architecture">
+  <img src="assets/framework.png" width="95%" alt="Network Architecture">
 </p>
 
--   **RGB Branch:** Performs coarse dehazing and structural restoration.
--   **HSV Branch:** Focuses on color correction and residual haze removal.
-    -   **HCCM (Hue Consistency Calibration Module):** Uses pixel attention to locate and refine hue distortions.
-    -   **HDS (Haze Density Supervision):** Utilizes the physical prior $D = |S - V|$ to supervise haze density estimation.
+*Note: Please ensure your framework image is placed in an `assets` folder or update the path above.*
+
+### Key Components:
+- **Hue Consistency Calibration Module (HCCM):** Specifically targets the Hue component to mitigate color distortions often introduced by standard CNNs.
+- **Haze Density Supervision (HDS):** Instead of relying solely on reconstruction loss, HDS leverages the saturation-value discrepancy ($|S - V|$) to guide the network in recognizing and removing uneven haze distributions.
 
 ---
 
@@ -42,7 +44,7 @@ Our framework is built upon a standard RGB encoder-decoder backbone and incorpor
 We compare HSV-DehazeNet with state-of-the-art methods on multiple challenging benchmarks.
 
 ### 1. Real-world Paired Datasets (O-HAZE & I-HAZE)
-Our method achieves the **best performance** on both O-HAZE and I-HAZE datasets.
+Our method achieves the **best performance** on both O-HAZE and I-HAZE datasets, striking an optimal balance between accuracy and computational efficiency.
 
 | Method | Venue | O-HAZE (PSNR / SSIM) | I-HAZE (PSNR / SSIM) | FLOPs (G) | Params (M) |
 | :--- | :---: | :---: | :---: | :---: | :---: |
@@ -54,7 +56,7 @@ Our method achieves the **best performance** on both O-HAZE and I-HAZE datasets.
 | SUD | TIM'25 | 20.70 / 0.6827 | 15.66 / 0.5990 | 93.9 | 2.5 |
 | **Ours** | **-** | **22.96 / 0.8171** | **18.23 / 0.7723** | **165.1** | **6.3** |
 
-### 2. Challenging Non-Uniform & Dense Haze (NH-HAZE & Dense-Haze)
+### 2. Challenging Non-Uniform & Dense Haze
 
 | Method | NH-HAZE (PSNR / SSIM) | Dense-Haze (PSNR / SSIM) |
 | :--- | :---: | :---: |
@@ -79,19 +81,19 @@ Our method achieves the **best performance** on both O-HAZE and I-HAZE datasets.
 ### O-HAZE Dataset (Outdoor)
 Our method effectively removes dense haze while preserving the natural color of the background (e.g., the red building), whereas other methods suffer from color shifts or residual haze.
 
-![O-HAZE Results](O-HAZE.png)
+![O-HAZE Results](assets/O-HAZE.png)
 
 ### I-HAZE Dataset (Indoor)
 In indoor scenes, HSV-DehazeNet recovers texture details and correct white balance better than competing methods.
 
-![I-HAZE Results](I-HAZE.png)
+![I-HAZE Results](assets/I-HAZE.png)
 
 ---
 
 ## 🛠️ Installation & Usage
 
 ### 1. Dependencies
-The code is developed/tested on **Python 3.8+** and **PyTorch**.
+The code is developed and tested on **Python 3.8+** and **PyTorch**.
 
 ```bash
 # Install dependencies
@@ -105,7 +107,7 @@ Please organize your dataset as follows:
 
 ```
 datasets_root/
-  └─ O-HAZE/ (or YourDataset)
+  └─ O-HAZE/
       ├─ train/
       │   ├─ hazy/  (source images)
       │   └─ GT/    (ground truth)
@@ -128,7 +130,7 @@ python main.py --path "/path/to/datasets_root" --dataset_name "O-HAZE" --bs 2 --
 
 * `--model_name`: Name of the experiment (for logging).
 * `--dataset_name`: Folder name of the dataset.
-* `--steps`: Total training steps (e.g., 30000).
+* `--steps`: Total training steps.
 * `--resume`: Add this flag to resume from the latest checkpoint.
 
 ### 4. Testing / Inference
@@ -140,8 +142,6 @@ python main.py --path "/path/to/datasets_root" --dataset_name "O-HAZE" --eval_st
 
 ```
 
-*(Alternatively, check `test.py` for a standalone inference script if available)*
-
 ---
 
 ## 📝 Citation
@@ -149,5 +149,6 @@ python main.py --path "/path/to/datasets_root" --dataset_name "O-HAZE" --eval_st
 If you find this project useful for your research, please consider citing our paper:
 
 ```bibtex
----------
+------------------------
 ```
+
