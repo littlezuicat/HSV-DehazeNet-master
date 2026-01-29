@@ -80,12 +80,12 @@ Our method achieves the **best performance** on both O-HAZE and I-HAZE datasets,
 ### O-HAZE Dataset (Outdoor)
 Our method effectively removes dense haze while preserving the natural color of the background (e.g., the red building), whereas other methods suffer from color shifts or residual haze.
 
-![O-HAZE Results](assets/O-HAZE.png)
+![O-HAZE Results](O-HAZE.png)
 
 ### I-HAZE Dataset (Indoor)
 In indoor scenes, HSV-DehazeNet recovers texture details and correct white balance better than competing methods.
 
-![I-HAZE Results](assets/I-HAZE.png)
+![I-HAZE Results](I-HAZE.png)
 
 ---
 
