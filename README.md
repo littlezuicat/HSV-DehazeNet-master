@@ -28,10 +28,9 @@ Experiments demonstrate that our method achieves state-of-the-art performance on
 Our framework is built upon a standard encoder-decoder backbone, enhanced by HSV-domain guidance to ensure both structural restoration and color accuracy.
 
 <p align="center">
-  <img src="assets/framework.png" width="95%" alt="Network Architecture">
+  <img src="framework.png" width="95%" alt="Network Architecture">
 </p>
 
-*Note: Please ensure your framework image is placed in an `assets` folder or update the path above.*
 
 ### Key Components:
 - **Hue Consistency Calibration Module (HCCM):** Specifically targets the Hue component to mitigate color distortions often introduced by standard CNNs.
