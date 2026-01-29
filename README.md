@@ -27,7 +27,7 @@ Experiments demonstrate that our method achieves state-of-the-art performance on
 Our framework is built upon a standard RGB encoder-decoder backbone and incorporates an HSV-guided branch for refinement.
 
 <p align="center">
-  <img src="main.pdf" width="95%" alt="Network Architecture">
+  <img src="framework.png" width="95%" alt="Network Architecture">
 </p>
 
 -   **RGB Branch:** Performs coarse dehazing and structural restoration.
