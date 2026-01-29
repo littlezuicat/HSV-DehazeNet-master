@@ -85,7 +85,7 @@ Our method effectively removes dense haze while preserving the natural color of 
 ### SOTS Dataset (Indoor)
 In indoor scenes, HSV-DehazeNet recovers texture details and correct white balance better than competing methods.
 
-![I-HAZE Results](I-HAZE.png)
+![I-HAZE Results](SOTS.png)
 
 ---
 
